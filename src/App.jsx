@@ -1,25 +1,20 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { BrowserRouter, Router, Route, Routes } from "react-router-dom";
-import viteLogo from "./assets/images/favico.png";
 import "./App.css";
-import Login from "./components/Login";
-import Register from "./components/register";
+import Router from "./router";
+import {Provider} from "react-redux";
+import store, {persistor} from "./store";
+import {PersistGate} from "redux-persist/integration/react";
+import {Toaster} from "react-hot-toast";
+
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
-    </>
-  );
+      <Provider store={store}>
+          <PersistGate persistor={persistor} loading={null}>
+              <Toaster position="bottom-right" />
+              <Router/>
+          </PersistGate>
+      </Provider>
+  )
 }
 
 export default App;
