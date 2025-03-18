@@ -1,14 +1,18 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import {loginValidationSchema} from "../validation.js";
 import '../authentication.css'
 import {useLoginMutation} from "../api/authentication.service.js";
 import toast from "react-hot-toast";
+import {useDispatch} from "react-redux";
+import {AuthActions} from "../slices/autentication.slice.js";
 
 
 export default function Login(){
 
     const [loginMutation]=useLoginMutation()
+    const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     const formik=useFormik({
         initialValues:{
@@ -19,6 +23,9 @@ export default function Login(){
             try {
                 const res=await loginMutation(values).unwrap();
                 toast.success(res.message)
+                dispatch(AuthActions.login({token:res.token,user:res.user}))
+                navigate("/")
+
             }catch (e) {
                 toast.error(e.data.message)
             }

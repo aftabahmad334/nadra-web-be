@@ -4,9 +4,6 @@ const initialState = {
     isAuthenticated: false,
     token: null,
     user: null,
-    userRole: '',
-    expireAt: null,
-    scopes: []
 }
 
 
@@ -16,11 +13,8 @@ const authenticationSlice = createSlice({
     reducers: {
         login(state, action) {
             state.isAuthenticated = true;
-            state.token = action.payload.Token;
-            state.user = action.payload.UserInfo;
-            state.userRole = action.payload.UserRole;
-            state.expireAt = action.payload.ExpireAt ?? null
-            state.scopes = action.payload.Scopes;
+            state.token = action.payload.token;
+            state.user = action.payload.user;
         },
         logout(state) {
             state.isAuthenticated = false;

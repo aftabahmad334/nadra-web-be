@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import {registerValidationSchema} from "../validation.js";
 import {useRegisterMutation} from "../api/authentication.service.js";
@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 export default function Register(){
     const [registerMutation]=useRegisterMutation()
-
+    const navigate=useNavigate();
     const formik=useFormik({
         initialValues:{
             name:"",
@@ -21,6 +21,7 @@ export default function Register(){
             try {
                 const res=await registerMutation(values).unwrap();
                 toast.success(res.message)
+                navigate("/login")
             }catch (e) {
                 toast.error(e.data.message)
             }
