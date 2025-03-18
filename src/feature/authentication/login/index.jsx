@@ -60,7 +60,7 @@ export default function Login(){
                             />
                         </div>
                         <p>{formik.touched.password && formik.errors?.password}</p>
-                        <button className="fluid ui button blue">Login</button>
+                        <button disabled={formik.isSubmitting} className="fluid ui button blue">Login</button>
                     </div>
                 </form>
                 <div className="text text-light ">

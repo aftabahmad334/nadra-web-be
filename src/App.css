@@ -7,9 +7,7 @@
   box-sizing: border-box;
 }
 body {
-  background: url("assets/images/nadra-bg.jpeg");
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url("assets/images/nadra-bg.jpeg") no-repeat center;
   background-size: cover;
   height: 100%;
 }
