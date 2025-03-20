@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { AuthActions } from "../authentication";
+import {Link} from "react-router-dom";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ export default function Dashboard() {
 
         <div className="row mb-2">
           <div className="col-md-4 text-center">
-            <button className="btn btn-primary w-100">Press Release</button>
+            <button className="btn btn-primary w-100"><Link to="/addPress">Press Release</Link></button>
           </div>
           <div className="col-md-4 text-center">
             <button className="btn btn-success w-100">MRV Schedule</button>

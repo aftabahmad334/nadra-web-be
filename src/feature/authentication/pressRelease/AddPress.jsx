@@ -12,9 +12,7 @@ export default function AddPress() {
     initialValues: {
       title: "",
       description: "",
-      featureImage: "",
       featureImage: [],
-      featureImage: "",
     },
     onSubmit: async (values) => {
       try {
@@ -42,7 +40,7 @@ export default function AddPress() {
           <h1>Add Press Release</h1>
           <div className="ui divider"></div>
           <div className="ui form row">
-            <div className="col-md-4 col-sm-6 col-xs-12 field">
+            <div className="col-md-12 col-sm-12 col-xs-12 field">
               <label>Title</label>
               <input
                 type="text"
@@ -54,23 +52,16 @@ export default function AddPress() {
               <p>{formik.touched.title && formik.errors?.title}</p>
             </div>
 
-            <div className="col-md-4 col-sm-6 col-xs-12 field">
-              <label>Description</label>
-              <input
-                type="text"
-                name="description"
-                placeholder="Details"
-                {...formik.getFieldProps("description")}
-                required
-              />
-              <p>{formik.touched.description && formik.errors?.description}</p>
-            </div>
 
-            <div className="col-md-4 col-sm-6 col-xs-12 field">
+
+            <div className="col-md-12 col-sm-12 col-xs-12 field">
               <RichTextEditor
+                  label={"Description"}
                 onChange={(c) => {
-                  console.log(c);
+                  formik.setFieldValue("description", c.target.value);
                 }}
+                value={formik.values.description}
+                  height={300}
               />
             </div>
 
