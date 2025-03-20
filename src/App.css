@@ -11,8 +11,13 @@ body {
   background-size: cover;
   height: 100%;
 }
+.custom-container {
+  width: 1140px !important;
+  margin: auto;
+  padding: 20px;
+}
 
-.container {
+/*.container {
   display: flex !important;
   flex-direction: column;
   justify-content: center;
@@ -21,7 +26,7 @@ body {
   max-width: 500px;
   width: 100%;
   margin: auto;
-}
+} */
 label {
   text-align: left;
 }
@@ -38,4 +43,13 @@ h1 {
   min-height: 1rem;
   font-size: 2rem;
   font-weight: 700;
+}
+select.ui.dropdown {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: white;
+  appearance: none; /* Removes default browser styles */
 }
