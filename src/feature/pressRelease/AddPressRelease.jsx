@@ -5,12 +5,13 @@ import { useRegisterMutation } from "../api/authentication.service.js";
 import toast from "react-hot-toast";
 import RichTextEditor from "../../../components/ui/RichTextEditor.jsx";
 
-export default function AddPress() {
+export default function AddPressRelease() {
   const [registerMutation] = useRegisterMutation();
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       title: "",
+      language: "",
       description: "",
       featureImage: [],
     },
@@ -18,7 +19,7 @@ export default function AddPress() {
       try {
         const res = await registerMutation(values).unwrap();
         toast.success(res.message);
-        navigate("/login");
+        navigate("/create_press");
       } catch (e) {
         toast.error(e.data.message);
       }
@@ -52,20 +53,18 @@ export default function AddPress() {
               <p>{formik.touched.title && formik.errors?.title}</p>
             </div>
 
-
-
             <div className="col-md-12 col-sm-12 col-xs-12 field">
               <RichTextEditor
-                  label={"Description"}
+                label={"Description"}
                 onChange={(c) => {
                   formik.setFieldValue("description", c.target.value);
                 }}
                 value={formik.values.description}
-                  height={300}
+                height={300}
               />
             </div>
 
-            <div className="col-md-4 col-sm-6 col-xs-12 field">
+            <div className="col-md-3 col-sm-6 col-xs-12 field">
               <label>Feature Image</label>
               <input
                 type="file"
@@ -84,7 +83,7 @@ export default function AddPress() {
               </p>
             </div>
 
-            <div className="col-md-4 col-sm-6 col-xs-12 field">
+            <div className="col-md-3 col-sm-6 col-xs-12 field">
               <label>Select Language</label>
               <select
                 name="language"
@@ -98,7 +97,7 @@ export default function AddPress() {
               <p>{formik.touched.language && formik.errors?.language}</p>
             </div>
 
-            <div className="col-md-4 col-sm-6 col-xs-12 field">
+            <div className="col-md-3 col-sm-6 col-xs-12 field">
               <label>Publish Date</label>
               <input
                 type="date"
@@ -112,7 +111,7 @@ export default function AddPress() {
               </p>
             </div>
 
-            <div className="col-md-4 col-sm-6 col-xs-12 field">
+            <div className="col-md-3 col-sm-6 col-xs-12 field">
               <label>Press Images (Optional)</label>
               <input
                 type="file"

@@ -3,7 +3,7 @@ import { Login, Register } from "../feature/authentication";
 import RoutingPublic from "./routing.public.jsx";
 import RoutingPrivate from "./routing.private.jsx";
 import Dashboard from "../feature/dashboard";
-import AddPress from "../feature/authentication/pressRelease/addPress.jsx";
+import AddPressRelease from "../feature/authentication/pressRelease/AddPressRelease.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/addPress",
-        element: <AddPress />,
+        element: <AddPressRelease />,
       },
     ],
   },
