@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 //import { registerValidationSchema } from "../validation.js";
 import { useCreatePressMutation } from "../services/api/pressRelease.service.js";
-
 import toast from "react-hot-toast";
 import RichTextEditor from "../../components/ui/RichTextEditor.jsx";
 
@@ -30,6 +29,30 @@ export default function AddPressRelease() {
     },
     //validationSchema: registerValidationSchema,
   });
+
+  function handleFeatureImage(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      formik.setFieldValue("featureImage", reader.result);
+    };
+  }
+
+  function handlePressImages(e) {
+    const files = e.target.files;
+    const pressImages = [];
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[i]);
+      reader.onloadend = () => {
+        pressImages.push(reader.result);
+        formik.setFieldValue("pressImages", pressImages);
+      };
+    }
+  }
 
   return (
     <>
@@ -75,12 +98,7 @@ export default function AddPressRelease() {
                 name="featureImage"
                 placeholder="Feature Image"
                 accept="image/png, image/jpeg, image/jpg"
-                onChange={(event) =>
-                  formik.setFieldValue(
-                    "featureImage",
-                    event.currentTarget.files[0]
-                  )
-                }
+                onChange={handleFeatureImage}
               />
               <p>
                 {formik.touched.featureImage && formik.errors?.featureImage}
@@ -121,13 +139,7 @@ export default function AddPressRelease() {
                 placeholder="Press Images"
                 multiple
                 accept="image/png, image/jpeg, image/jpg"
-                onChange={(event) => {
-                  const files = Array.from(event.currentTarget.files);
-                  const validFiles = files.filter((file) =>
-                    ["image/png", "image/jpeg", "image/jpg"].includes(file.type)
-                  );
-                  formik.setFieldValue("pressImages", validFiles);
-                }}
+                onChange={handlePressImages}
               />
             </div>
 
@@ -145,3 +157,12 @@ export default function AddPressRelease() {
     </>
   );
 }
+
+
+
+
+
+
+
+
+
