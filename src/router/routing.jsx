@@ -3,8 +3,7 @@ import { Login, Register } from "../feature/authentication";
 import RoutingPublic from "./routing.public.jsx";
 import RoutingPrivate from "./routing.private.jsx";
 import Dashboard from "../feature/dashboard";
-import AddPressRelease from "../feature/authentication/pressRelease/AddPressRelease.jsx";
-
+import AddPressRelease from "../feature/pressRelease/AddPressRelease.jsx";
 export const router = createBrowserRouter([
   {
     element: <RoutingPublic />,

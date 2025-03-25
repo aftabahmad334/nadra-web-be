@@ -1,30 +1,34 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { registerValidationSchema } from "../validation.js";
-import { useRegisterMutation } from "../api/authentication.service.js";
+//import { registerValidationSchema } from "../validation.js";
+import { useCreatePressMutation } from "../services/api/pressRelease.service.js";
+
 import toast from "react-hot-toast";
-import RichTextEditor from "../../../components/ui/RichTextEditor.jsx";
+import RichTextEditor from "../../components/ui/RichTextEditor.jsx";
 
 export default function AddPressRelease() {
-  const [registerMutation] = useRegisterMutation();
+  const [addPressMutation] = useCreatePressMutation();
+
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       title: "",
       language: "",
       description: "",
-      featureImage: [],
+      featureImage: "",
+      publishDate: "",
+      pressImages: [],
     },
     onSubmit: async (values) => {
       try {
-        const res = await registerMutation(values).unwrap();
+        const res = await addPressMutation(values).unwrap();
         toast.success(res.message);
         navigate("/create_press");
       } catch (e) {
         toast.error(e.data.message);
       }
     },
-    validationSchema: registerValidationSchema,
+    //validationSchema: registerValidationSchema,
   });
 
   return (
@@ -101,21 +105,19 @@ export default function AddPressRelease() {
               <label>Publish Date</label>
               <input
                 type="date"
-                name="featureImage"
+                name="publishDate"
                 placeholder="Publish Date"
-                {...formik.getFieldProps("featureImage")}
+                {...formik.getFieldProps("publishDate")}
                 required
               />
-              <p>
-                {formik.touched.featureImage && formik.errors?.featureImage}
-              </p>
+              <p>{formik.touched.publishDate && formik.errors?.publishDate}</p>
             </div>
 
             <div className="col-md-3 col-sm-6 col-xs-12 field">
               <label>Press Images (Optional)</label>
               <input
                 type="file"
-                name="featureImage"
+                name="pressImages"
                 placeholder="Press Images"
                 multiple
                 accept="image/png, image/jpeg, image/jpg"
@@ -124,7 +126,7 @@ export default function AddPressRelease() {
                   const validFiles = files.filter((file) =>
                     ["image/png", "image/jpeg", "image/jpg"].includes(file.type)
                   );
-                  formik.setFieldValue("featureImage", validFiles);
+                  formik.setFieldValue("pressImages", validFiles);
                 }}
               />
             </div>

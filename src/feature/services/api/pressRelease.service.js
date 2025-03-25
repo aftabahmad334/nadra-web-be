@@ -2,10 +2,10 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "../../../lib";
 
 export const pressReleaseApi = createApi({
-  reducerPath: "authService",
+  reducerPath: "pressReleaseApi",
   baseQuery: baseQuery,
   endpoints: (builder) => ({
-    create_press: builder.mutation({
+    createPress: builder.mutation({
       query: (body) => ({
         url: "/api/v1/press-release/create",
         method: "POST",
@@ -15,4 +15,5 @@ export const pressReleaseApi = createApi({
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authenticationService;
+// Export the hook
+export const { useCreatePressMutation } = pressReleaseApi;
