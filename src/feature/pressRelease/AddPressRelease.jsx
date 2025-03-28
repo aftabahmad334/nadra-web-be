@@ -14,54 +14,74 @@ export default function AddPressRelease() {
       title: "",
       language: "",
       description: "",
-      featureImage: "",
+      featuredImage: null, // Should be null, not empty string
       publishDate: "",
-      pressImages: [],
+      pressImages: [], // Ensure it's an array
     },
     onSubmit: async (values) => {
       try {
-        const res = await addPressMutation(values).unwrap();
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("language", values.language);
+        formData.append("description", values.description);
+        formData.append("publishDate", values.publishDate);
+        // Append featured image
+        if (values.featuredImage) {
+          formData.append("featuredImage", values.featuredImage);
+        }
+
+        // Ensure pressImages is an array before looping
+        if (Array.isArray(values.pressImages)) {
+          values.pressImages.forEach((file) => {
+            formData.append("pressImages", file);
+          });
+        } else {
+          formData.append("pressImages", values.pressImages);
+        }
+
+        const res = await addPressMutation(formData).unwrap();
         toast.success(res.message);
-        navigate("/create_press");
+        // navigate("/create_press");
       } catch (e) {
         toast.error(e.data.message);
       }
     },
-    //validationSchema: registerValidationSchema,
   });
+
 
   function handleFeatureImage(e) {
     const file = e.target.files[0];
     if (!file) return;
+    formik.setFieldValue("featuredImage",file)
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      formik.setFieldValue("featureImage", reader.result);
-    };
   }
 
+  // function handlePressImages(e) {
+  //   //   const files = e.target.files;
+  //   //   // const pressImages = [];
+  //   //   // for (let i = 0; i < files.length; i++) {
+  //   //   //   const reader = new FileReader();
+  //   //   //   reader.readAsDataURL(files[i]);
+  //   //   //   reader.onloadend = () => {
+  //   //   //     pressImages.push(reader.result);
+  //   //   //     formik.setFieldValue("pressImages", pressImages);
+  //   //   //   };
+  //   //   // }
+  //   //   formik.setFieldValue("pressImages",files)
+  //   // }
   function handlePressImages(e) {
-    const files = e.target.files;
-    const pressImages = [];
-    for (let i = 0; i < files.length; i++) {
-      const reader = new FileReader();
-      reader.readAsDataURL(files[i]);
-      reader.onloadend = () => {
-        pressImages.push(reader.result);
-        formik.setFieldValue("pressImages", pressImages);
-      };
-    }
+    const files = Array.from(e.target.files); // Convert FileList to an array
+    formik.setFieldValue("pressImages", files);
   }
 
   return (
-    <>
-      <div className="bgImg"></div>
-      <div className="container custom-container">
-        {Object.keys(formik.errors).length === 0 && formik.isSubmitting ? (
-          <div className="ui message success">Signed in successfully</div>
-        ) : (
-          console.log("Entered Details", formik.values)
+      <>
+        <div className="bgImg"></div>
+        <div className="container custom-container">
+          {Object.keys(formik.errors).length === 0 && formik.isSubmitting ? (
+              <div className="ui message success">Signed in successfully</div>
+          ) : (
+              console.log("Entered Details", formik.values)
         )}
 
         <form onSubmit={formik.handleSubmit}>
