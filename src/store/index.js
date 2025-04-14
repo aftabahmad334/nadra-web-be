@@ -15,17 +15,19 @@ import {
   authenticationService,
 } from "../feature/authentication";
 import { pressReleaseApi } from "../feature/services/api/pressRelease.service";
+import mrvService from "../feature/mrv/api/mrv.service.js";
 
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: [],
+  blacklist: [pressReleaseApi.reducerPath, mrvService.reducerPath],
 };
 
 const rootReducer = combineReducers({
   [authenticationSlice.name]: authenticationSlice.reducer,
   [authenticationService.reducerPath]: authenticationService.reducer,
   [pressReleaseApi.reducerPath]: pressReleaseApi.reducer,
+  [mrvService.reducerPath]: mrvService.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

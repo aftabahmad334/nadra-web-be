@@ -1,6 +1,9 @@
 import RichTextEditor from "../../../components/ui/RichTextEditor.jsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useRef, useState} from "react";
+import {useFormik} from "formik";
+import {useCreateMRVMutation} from "../api/mrv.service.js";
+import toast from "react-hot-toast";
 
 
 const options=[
@@ -23,8 +26,40 @@ export default function CreateMRV() {
 
     const fileRef = useRef(null);
 
+    const navigate=useNavigate();
+
+    const [createMRVMutation] = useCreateMRVMutation();
+
+    const formik=useFormik({
+        initialValues: {
+            dateFrom: "",
+            dateTo: "",
+            region: "",
+            pressImages: [],
+        },
+        onSubmit:async (values) => {
+            try{
+                 const formData = new FormData();
+                 formData.append("dateFrom", values.dateFrom);
+                    formData.append("dateTo", values.dateTo);
+                    formData.append("region", values.region);
+                    values.pressImages.forEach((file) => {
+                        formData.append("images", file);
+                    });
+                    const response = await createMRVMutation(formData).unwrap();
+                    navigate("/");
+                    toast.success(response.message);
+            }catch(err){
+                toast.error(err.data.message);
+            }
+        }
+    });
+
     function handleFileChange(e) {
-        console.log(Array.from(e.target.files));
+        formik.setValues(perv=>({
+            ...perv,
+            pressImages: [...perv.pressImages, ...e.target.files],
+        }))
         const files = Array.from(e.target.files).map((file) => ({
             file,
             preview: URL.createObjectURL(file),
@@ -38,13 +73,16 @@ export default function CreateMRV() {
         }
     }
 
+    function deleteFile(index) {
+        setSelectedFile((prev) => prev.filter((_, i) => i !== index));
+    }
 
 
     return (
         <>
             <div className="bgImg"></div>
             <div className="container custom-container">
-                <form >
+                <form onSubmit={formik.handleSubmit}>
                    <h1>Create MRV Schedule</h1>
                     <div className="ui divider"></div>
                     <div className="ui form row">
@@ -54,6 +92,7 @@ export default function CreateMRV() {
                                 type="date"
                                 name="dateFrom"
                                 required
+                                {...formik.getFieldProps("dateFrom")}
                             />
                             <p></p>
                         </div>
@@ -63,12 +102,13 @@ export default function CreateMRV() {
                                 type="date"
                                 name="dateTo"
                                 required
+                                {...formik.getFieldProps("dateTo")}
                             />
                             <p></p>
                         </div>
                         <div className="col-md-6 col-sm-6 col-xs-12 field">
                             <label>Date To</label>
-                             <select className='ui dropdown'>
+                             <select className='ui dropdown' {...formik.getFieldProps("region")}>
                                 <option value="">Select Region</option>
                                  {
                                     options.map((option, index) => (
@@ -120,7 +160,7 @@ export default function CreateMRV() {
                                      <img className='w-10 h-10' src={item.preview} alt={item.preview} />
                                  </td>
                                  <td>
-                                     <button className="ui button blue">Delete</button>
+                                     <button onClick={()=>deleteFile(index)} className="ui button blue">Delete</button>
                                  </td>
                              </tr>
                          ))
