@@ -4,6 +4,7 @@ import RoutingPublic from "./routing.public.jsx";
 import RoutingPrivate from "./routing.private.jsx";
 import Dashboard from "../feature/dashboard";
 import AddPressRelease from "../feature/pressRelease/AddPressRelease.jsx";
+import {CreateMRV} from "../feature/mrv/index.js";
 export const router = createBrowserRouter([
   {
     element: <RoutingPublic />,
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "/addPress",
         element: <AddPressRelease />,
+      },
+      {
+        path: "/add-mrv",
+        element: <CreateMRV />,
       },
     ],
   },

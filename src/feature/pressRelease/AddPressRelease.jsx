@@ -56,19 +56,6 @@ export default function AddPressRelease() {
 
   }
 
-  // function handlePressImages(e) {
-  //   //   const files = e.target.files;
-  //   //   // const pressImages = [];
-  //   //   // for (let i = 0; i < files.length; i++) {
-  //   //   //   const reader = new FileReader();
-  //   //   //   reader.readAsDataURL(files[i]);
-  //   //   //   reader.onloadend = () => {
-  //   //   //     pressImages.push(reader.result);
-  //   //   //     formik.setFieldValue("pressImages", pressImages);
-  //   //   //   };
-  //   //   // }
-  //   //   formik.setFieldValue("pressImages",files)
-  //   // }
   function handlePressImages(e) {
     const files = Array.from(e.target.files); // Convert FileList to an array
     formik.setFieldValue("pressImages", files);

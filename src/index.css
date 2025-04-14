@@ -90,3 +90,12 @@ button:active {
   overflow: auto !important;
   margin-bottom: 30px !important;
 }
+
+
+/*Input Required field Streak */
+
+input:required::before{
+    content: "*";
+    color: red;
+    margin-right: 5px;
+}

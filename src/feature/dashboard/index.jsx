@@ -1,9 +1,15 @@
 import { useDispatch } from "react-redux";
 import { AuthActions } from "../authentication";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  function handleNavigation(link) {
+    navigate(link);
+  }
+
   return (
     <div>
       <div className="bgImg"></div>
@@ -12,10 +18,10 @@ export default function Dashboard() {
 
         <div className="row mb-2">
           <div className="col-md-4 text-center">
-            <button className="btn btn-primary w-100"><Link to="/addPress">Press Release</Link></button>
+            <button className="btn btn-primary w-100" onClick={()=>handleNavigation('/addPress')}>Press Release</button>
           </div>
           <div className="col-md-4 text-center">
-            <button className="btn btn-success w-100">MRV Schedule</button>
+            <button className="btn btn-success w-100" onClick={()=>handleNavigation('/add-mrv')}>MRV Schedule</button>
           </div>
           <div className="col-md-4 text-center">
             <button className="btn btn-danger w-100">Downloads</button>
